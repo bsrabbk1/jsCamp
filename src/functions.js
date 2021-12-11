@@ -81,3 +81,4 @@ let newProductName, newUnitPrice, newQuantity;  // 3 adet değişken tanımladı
 console.log(newProductName);
 console.log(newQuantity);
 console.log(newUnitPrice);
+
