@@ -57,18 +57,52 @@ export default class UserService {
                 this.errors.push(new DataError(`Validation Problem. ${field} is required `, user))
             }
         }
+
+        if(Number.isNaN(Number.parseInt (+user.age))){ // userın age i sayı değilse
+            hasErrors =true
+            this.errors.push(new DataError(`Validation Problem. ${user.age} is not a number `, user))
+        }
         return hasError
     }
 
     add(user) {
-        //this.users.push(user)
+        switch (user.type) {
+            case "customer":
+                if (!this.checkCustomerValidityForErrors(user)) {
+                    this.customers.push(user)
+                }
+               
+                break;
+            case "employee":
+                if (!this.checkCustomerValidityForErrors(user)) {
+                    this.customers.push(user)
+                }
+                break;
+        
+            default:
+                this.errors.push(new DataError("This user can not be added. Wrong user type",user))
+                break;
+        }
         this.loggerService.log(user)
     }
-    list() {
-        //  return this.users
+    listCustomers() {
+         return this.customers
     }
-    getById(id) {
-        // return this.users.find(u => u.id === id)  // find verdiğimiz şarta göre data döndürür
+    getCustomerById(id) {
+         return this.customers.find(u => u.id === id)  // find verdiğimiz şarta göre data döndürür
+    }
+
+    getCustomersSorted(){
+     return   this.customers.sort((customer1,customer2)=>{
+            if(customer1.firstName<customer2.firstName)
+            return -1;
+            else if(customer1.firstName===customer2.firstName){
+                return 0;
+            }
+            else{
+                return 1;
+            }
+        })
     }
 
 
